@@ -34,10 +34,10 @@ A tiny, simple 2d grid. Grid is implemented as a record around a flat vector.
 
 ```clojure
 
-;;get a value at cell x, y
 (def grid (vec->grid [1 2
                       3 4] 2))
 
+;;get a value at cell x, y
 (grid 1 1)
 ;;4
 
@@ -45,12 +45,11 @@ A tiny, simple 2d grid. Grid is implemented as a record around a flat vector.
 (grid [0 1])
 ;;3
 
-;;turn a grid into a seq of cells (a cell is a triple (x, y, value)
+;;turn a grid into a seq of cells (a cell is a triple (x, y, value))
 (cells grid)
 ;; ([0 0 1] [1 0 2] [0 1 3] [1 1 4])
 
 ;;'updating' a cell
-
 (update-cell grid 0 0 :foo)
 ;;#clj_tiny_grid.core.Grid{:vec [:foo 2 3 4], :width 2, :height 2}
 
