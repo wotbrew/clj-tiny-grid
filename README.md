@@ -2,6 +2,11 @@
 
 A tiny, simple 2d grid. Grid is implemented as a record around a flat vector.
 
+## lein
+``` clojure
+[clj-tiny-grid "0.1.0-SNAPSHOT"]
+````
+
 ## Usage
 
 ### Creating grids
