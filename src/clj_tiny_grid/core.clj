@@ -41,6 +41,8 @@
   ([grid x y v]
      (assoc-in grid [:vec (indmap x y (:width grid))] v))
   ([grid [x y] v]
+     (update-cell grid x y v))
+  ([grid [x y v]]
      (update-cell grid x y v)))
 
 (defn cells->grid
@@ -56,3 +58,23 @@
         cells)))
   ([cells] (cells->grid cells nil)))
  
+
+(defn merge-cells
+  "update the grid with the values given by cells"
+  [grid cells]
+  (reduce update-cell grid cells))
+
+(defn in-bounds
+  "is the point within the bounds of the grid"
+  ([grid x y]
+     (and (< -1 x (:width grid))
+          (< -1 y (:height grid))))
+  ([grid [x y]]
+     (in-bounds grid x y)))
+
+(defn get-bounded
+  "get the cell value at x, y or nil if out of bounds"
+  ([grid x y]
+     (if (in-bounds grid x y) (grid x y) nil))
+  ([grid [x y]]
+     (get-bounded grid x y)))
