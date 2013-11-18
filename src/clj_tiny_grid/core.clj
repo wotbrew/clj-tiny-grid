@@ -75,6 +75,30 @@
 (defn get-bounded
   "get the cell value at x, y or nil if out of bounds"
   ([grid x y]
-     (if (in-bounds grid x y) (grid x y) nil))
+     (when (in-bounds grid x y) (grid x y)))
   ([grid [x y]]
      (get-bounded grid x y)))
+
+(defn merge-bounded
+  "like merge-cells, but only merges those cells that are   within the grid bounds"
+  [grid cells]
+  (let [c (filter #(in-bounds grid %) cells)]
+    (merge-cells grid c)))
+
+(defmacro iter
+  "high performance loop over a grid
+   presumably causing side-effects.
+   takes binding in the form [x y value] to be used in the body"
+  [grid [x y value] & body]
+  `(let [width# (int (.width grid))
+         height# (int (.height grid))
+         vec# (.vec grid)]
+     (loop [~y (int 0)]
+       (if (< ~y height#)
+         (do 
+           (loop [~x (int 0)]
+             (if (< ~x width#)
+               (let [~value (.nth vec# (indmap ~x ~y width#))]
+                 ~@body
+                   (recur (inc ~x)))))
+           (recur (inc ~y)))))))

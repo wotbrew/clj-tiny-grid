@@ -58,3 +58,8 @@
           (= :a (get-bounded g 0 0))
           (= :d (get-bounded g 1 1))
           (= nil (get-bounded g 3 4))))))
+
+(deftest test-merge-bounded
+  (let [g (vec->grid [:a 0 0 :d] 2)]
+    (and (= g (merge-bounded g [[-1 0 :foo]]))
+         (= (vec->grid [:foo 0 0 :d] 2) (merge-bounded g [[0 0 :foo] [3 4 :bla]])))))
