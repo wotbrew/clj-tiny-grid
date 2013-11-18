@@ -19,11 +19,14 @@
 
 
 (defn vec->grid
-  "construct a grid from a vector"
-  [vec width]
-  (let [len (count vec)
-        height (/ len width)]
-    (Grid. vec width height)))
+  "construct a grid from a vector
+   you can either pass a width, or it will be assumed the width is floor(sqrt(width))"
+  ([vec width]
+     (let [len (count vec)
+           height (/ len width)]
+       (Grid. vec width height)))
+  ([vec]
+     (vec->grid vec (int (Math/sqrt (count vec))))))
 
 (defn init
   "initialise a grid with the cells of value 'val'"
@@ -90,9 +93,9 @@
    presumably causing side-effects.
    takes binding in the form [x y value] to be used in the body"
   [grid [x y value] & body]
-  `(let [width# (int (.width grid))
-         height# (int (.height grid))
-         vec# (.vec grid)]
+  `(let [width# (int (.width ~grid))
+         height# (int (.height ~grid))
+         vec# (.vec ~grid)]
      (loop [~y (int 0)]
        (if (< ~y height#)
          (do 

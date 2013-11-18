@@ -63,3 +63,13 @@
   (let [g (vec->grid [:a 0 0 :d] 2)]
     (and (= g (merge-bounded g [[-1 0 :foo]]))
          (= (vec->grid [:foo 0 0 :d] 2) (merge-bounded g [[0 0 :foo] [3 4 :bla]])))))
+
+(deftest test-iter
+  (let [g (vec->grid [1 2 3 4] 2)
+        tr (transient [0 0 0 0])]
+    (iter g
+          [x y v]
+          (assoc! tr (indmap x y 2) v))
+    (is 
+     (= (persistent! tr)
+        [1 2 3 4]))))
