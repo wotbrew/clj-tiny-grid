@@ -14,7 +14,7 @@
 
 (defrecord Grid [vec width height]
   clojure.lang.IFn
-  (invoke [this x y] ((:vec this) (indmap x y (:width this))))
+  (invoke [this x y] ((.vec this) (indmap x y (.width this))))
   (invoke [this [x y]] (.invoke this x y)))
 
 
@@ -37,12 +37,12 @@
 (defn cells
   "turn a grid into a sequence of cells (triples of [x y v])"
   [grid]
-  (derive-cells (:vec grid) (:width grid) (:height grid)))
+  (derive-cells (.vec grid) (.width grid) (.height grid)))
 
 (defn update-cell
   "update the cell value at x & y"
   ([grid x y v]
-     (assoc-in grid [:vec (indmap x y (:width grid))] v))
+     (assoc-in grid [:vec (indmap x y (.width grid))] v))
   ([grid [x y] v]
      (update-cell grid x y v))
   ([grid [x y v]]
@@ -70,8 +70,8 @@
 (defn in-bounds
   "is the point within the bounds of the grid"
   ([grid x y]
-     (and (< -1 x (:width grid))
-          (< -1 y (:height grid))))
+     (and (< -1 x (.width grid))
+          (< -1 y (.height grid))))
   ([grid [x y]]
      (in-bounds grid x y)))
 
@@ -93,9 +93,10 @@
    presumably causing side-effects.
    takes binding in the form [x y value] to be used in the body"
   [grid [x y value] & body]
-  `(let [width# (int (.width ~grid))
-         height# (int (.height ~grid))
-         vec# (.vec ~grid)]
+  `(let [g# ~(with-meta grid {:tag `Grid})
+         width# (int (.width g#))
+         height# (int (.height g#))
+         vec# (.vec g#)]
      (loop [~y (int 0)]
        (if (< ~y height#)
          (do 
