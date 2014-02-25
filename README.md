@@ -1,4 +1,5 @@
 # clj-tiny-grid
+[![Build Status](https://travis-ci.org/danstone/clj-tiny-grid.png?branch=master)](https://travis-ci.org/danstone/clj-tiny-grid)
 
 A tiny, simple 2d grid. Grid is implemented as a record around a flat vector.
 
