@@ -106,3 +106,16 @@
                  ~@body
                    (recur (inc ~x)))))
            (recur (inc ~y)))))))
+
+(defn map-cells
+  "map a function over each cell in a grid.
+  the function will be passed 3 arguments `x` `y` and `v` and will be expected to return the replacement value"
+  [f grid]
+  (->> (cells grid)
+       (map (fn [[x y v]] (tuple x y (f x y v))))
+       (cells->grid)))
+
+(defn map-cell-vals
+  "map a function over each cell value in a grid"
+  [f grid]
+  (map-cells (fn [x y v] (f v)) grid))

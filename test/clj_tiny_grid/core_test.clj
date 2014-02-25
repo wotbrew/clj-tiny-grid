@@ -73,3 +73,15 @@
     (is 
      (= (persistent! tr)
         [1 2 3 4]))))
+
+(deftest test-map-cells
+  (let [g (vec->grid [1 2 3 4] 2)
+        g2 (map-cells + g)]
+    (is (= g2
+           (vec->grid [1 3 4 6] 2)))))
+
+(deftest test-map-cell-vals
+  (let [g (vec->grid [1 2 3 4] 2)
+        g2 (map-cell-vals inc g)]
+    (is (= g2
+           (vec->grid [2 3 4 5] 2)))))
