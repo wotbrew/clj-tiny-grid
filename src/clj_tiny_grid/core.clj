@@ -36,12 +36,12 @@
 
 (defn cells
   "turn a grid into a sequence of cells (triples of [x y v])"
-  [grid]
+  [^Grid grid]
   (derive-cells (.vec grid) (.width grid) (.height grid)))
 
 (defn update-cell
   "update the cell value at x & y"
-  ([grid x y v]
+  ([^Grid grid x y v]
      (assoc-in grid [:vec (indmap x y (.width grid))] v))
   ([grid [x y] v]
      (update-cell grid x y v))
@@ -69,7 +69,7 @@
 
 (defn in-bounds
   "is the point within the bounds of the grid"
-  ([grid x y]
+  ([^Grid grid x y]
      (and (< -1 x (.width grid))
           (< -1 y (.height grid))))
   ([grid [x y]]
@@ -102,7 +102,7 @@
          (do 
            (loop [~x (int 0)]
              (if (< ~x width#)
-               (let [~value (.nth vec# (indmap ~x ~y width#))]
+               (let [~value (nth vec# (indmap ~x ~y width#))]
                  ~@body
                    (recur (inc ~x)))))
            (recur (inc ~y)))))))
