@@ -1,5 +1,5 @@
 (ns clj-tiny-grid.core
-  (:use [clj-tuple]))
+  (:require [clj-tuple :refer [tuple]]))
 
 (defmacro indmap
   "map a pair of co-ordinates to an index"
@@ -9,7 +9,7 @@
 (defn derive-cells
   [xs width height]
   (map (fn [i x] (tuple (mod i width)
-                       (int (/ i height)) x))
+                       (int (/ i width)) x))
        (range (* width height)) xs))
 
 (defrecord Grid [vec width height]
